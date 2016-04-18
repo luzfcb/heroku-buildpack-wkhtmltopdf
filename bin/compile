@@ -12,26 +12,27 @@ function indent() {
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-DEB="$CACHE_DIR/wkhtmltopdf.deb"
+COMPRESSED_PACKAGE="$CACHE_DIR/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz"
 TS=`date +%s`
-if [ ! -f $DEB ]; then
-  WKHTMLTOPDF_DOWNLOAD_URL="http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb"
+if [ ! -f $COMPRESSED_PACKAGE ]; then
+  WKHTMLTOPDF_DOWNLOAD_URL="http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz"
   echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-  curl -L --silent -o $DEB $WKHTMLTOPDF_DOWNLOAD_URL
+  curl -L --silent -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
 fi
 
-echo "-----> Installing wkhtmltopdf 0.12.2.1"
-mkdir -p $BUILD_DIR/.apt
-dpkg -x $DEB $BUILD_DIR/.apt/
+echo "-----> Installing wkhtmltopdf 0.12.3"
+mkdir -p $BUILD_DIR/.custom_packages
+tar xvfJ $COMPRESSED_PACKAGE $BUILD_DIR/.custom_packages/
 
 echo "Writing profile script" | indent
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/wkhtmltopdf.sh
-export PATH="\$HOME/.apt/usr/local/bin:\$PATH"
-export LD_LIBRARY_PATH="\$HOME/.apt/usr/local/lib/x86_64-linux-gnu:\$HOME/.apt/usr/local/lib/i386-linux-gnu:\$HOME/.apt/usr/local/lib:\$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$HOME/.apt/usr/local/lib/x86_64-linux-gnu:\$HOME/.apt/usr/local/lib/i386-linux-gnu:\$HOME/.apt/usr/local/lib:\$LIBRARY_PATH"
-export INCLUDE_PATH="\$HOME/.apt/usr/local/include:\$INCLUDE_PATH"
+export PATH="\$HOME/.custom_packages/wkhtmltox/bin:\$PATH"
+export LD_LIBRARY_PATH="\$HOME/.custom_packages/wkhtmltox/lib:\$LD_LIBRARY_PATH"
+export LIBRARY_PATH="\$HOME/.custom_packages/wkhtmltox/lib:\$LIBRARY_PATH"
+export INCLUDE_PATH="\$HOME/.custom_packages/wkhtmltox/include/wkhtmltox:\$INCLUDE_PATH"
 export CPATH="\$INCLUDE_PATH"
 export CPPPATH="\$INCLUDE_PATH"
-export PKG_CONFIG_PATH="\$HOME/.apt/usr/local/lib/x86_64-linux-gnu/pkgconfig:\$HOME/.apt/usr/local/lib/i386-linux-gnu/pkgconfig:\$HOME/.apt/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH"
+export WKHTMLTOPDF_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
+export WKHTMLTOIMAGE_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 EOF
