@@ -25,9 +25,11 @@ if [ ! -f $COMPRESSED_PACKAGE ]; then
 fi
 
 echo "-----> Start installing wkhtmltopdf 0.12.3"
+mkdir -p "$CACHE_DIR/.custom_packages"
 mkdir -p "$BUILD_DIR/.custom_packages"
 echo "-----> Uncompress wkhtmltopdf 0.12.3"
-cat "$COMPRESSED_PACKAGE" | tar x --xz -C "$BUILD_DIR/.custom_packages/"
+cat "$COMPRESSED_PACKAGE" | tar x --xz -C "$CACHE_DIR/.custom_packages/"
+cp -rf "$CACHE_DIR/.custom_packages" "$BUILD_DIR/.custom_packages"
 
 echo "Writing profile script" | indent
 mkdir -p "$BUILD_DIR/.profile.d"
