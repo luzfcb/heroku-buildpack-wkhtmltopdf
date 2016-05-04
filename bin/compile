@@ -17,7 +17,7 @@ TS=`date +%s`
 if [ ! -f $COMPRESSED_PACKAGE ]; then
   WKHTMLTOPDF_DOWNLOAD_URL="http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz"
   echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-  curl -L --silent -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
+  curl -L -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
 fi
 
 echo "-----> Installing wkhtmltopdf 0.12.3"
