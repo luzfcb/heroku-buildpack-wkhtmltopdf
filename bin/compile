@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 
+WKHTMLTOPDF_VERSION="0.12.3"
+
 function indent() {
   c='s/^/       /'
   case $(uname) in
@@ -12,17 +14,20 @@ function indent() {
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-COMPRESSED_PACKAGE="$CACHE_DIR/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz"
+COMPRESSED_PACKAGE="$CACHE_DIR/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
+
+
 TS=`date +%s`
 if [ ! -f $COMPRESSED_PACKAGE ]; then
-  WKHTMLTOPDF_DOWNLOAD_URL="http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz"
+  WKHTMLTOPDF_DOWNLOAD_URL="http://download.gna.org/wkhtmltopdf/0.12/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
   echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
   curl -L -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
 fi
 
-echo "-----> Installing wkhtmltopdf 0.12.3"
+echo "-----> Start installing wkhtmltopdf 0.12.3"
 mkdir -p "$BUILD_DIR/.custom_packages"
-tar xvfJ "$COMPRESSED_PACKAGE" "$BUILD_DIR/.custom_packages/"
+echo "-----> Uncompress wkhtmltopdf 0.12.3"
+cat "$COMPRESSED_PACKAGE" | tar x --xz -C "$BUILD_DIR/.custom_packages/"
 
 echo "Writing profile script" | indent
 mkdir -p "$BUILD_DIR/.profile.d"
@@ -36,4 +41,5 @@ export CPPPATH="\$INCLUDE_PATH"
 export WKHTMLTOPDF_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 export WKHTMLTOIMAGE_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 EOF
-chmod +x "$BUILD_DIR/.custom_packages/wkhtmltox/bin"
+chmod +x "$HOME/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
+chmod +x "$HOME/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
