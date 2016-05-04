@@ -21,12 +21,12 @@ if [ ! -f $COMPRESSED_PACKAGE ]; then
 fi
 
 echo "-----> Installing wkhtmltopdf 0.12.3"
-mkdir -p $BUILD_DIR/.custom_packages
-tar xvfJ $COMPRESSED_PACKAGE $BUILD_DIR/.custom_packages/
+mkdir -p "$BUILD_DIR/.custom_packages"
+tar xvfJ "$COMPRESSED_PACKAGE" "$BUILD_DIR/.custom_packages/"
 
 echo "Writing profile script" | indent
-mkdir -p $BUILD_DIR/.profile.d
-cat <<EOF >$BUILD_DIR/.profile.d/wkhtmltopdf.sh
+mkdir -p "$BUILD_DIR/.profile.d"
+cat <<EOF >"$BUILD_DIR/.profile.d/wkhtmltopdf.sh"
 export PATH="\$HOME/.custom_packages/wkhtmltox/bin:\$PATH"
 export LD_LIBRARY_PATH="\$HOME/.custom_packages/wkhtmltox/lib:\$LD_LIBRARY_PATH"
 export LIBRARY_PATH="\$HOME/.custom_packages/wkhtmltox/lib:\$LIBRARY_PATH"
@@ -36,3 +36,4 @@ export CPPPATH="\$INCLUDE_PATH"
 export WKHTMLTOPDF_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 export WKHTMLTOIMAGE_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 EOF
+chmod +x "$BUILD_DIR/.custom_packages/wkhtmltox/bin"
