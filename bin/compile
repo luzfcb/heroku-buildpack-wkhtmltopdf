@@ -51,5 +51,6 @@ chmod +x "$BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 chmod +x "$BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 
 if [ -f "$BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltopdf" ]; then
+    $BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltopdf -V
     echo "-----> Sucesss installing wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
 fi
