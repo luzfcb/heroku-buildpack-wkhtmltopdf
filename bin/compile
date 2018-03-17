@@ -58,6 +58,9 @@ source "${BUILD_DIR}/.profile.d/wkhtmltopdf.sh"
 chmod +x "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 chmod +x "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 
+echo -e "\nWKHTMLTOPDF_CMD:\n"
+echo "${WKHTMLTOPDF_CMD}"
+
 if [ -f "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf" ]; then
     ${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf -V
     echo "-----> Sucesss installing wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
