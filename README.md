@@ -22,18 +22,7 @@ This is designed to be used on [Cedar-14 Stack](https://devcenter.heroku.com/art
 
 ## Usage
 
-Add a `.buildpacks` file to the root of your repo that contains this buildpack URL and your real buildpack URL:
-
-    https://github.com/rafaelp/heroku-buildpack-wkhtmltopdf#0.12.2.1
-    https://github.com/heroku/heroku-buildpack-ruby
-
-Then create an application using the multi buildpack:
-
-    $ heroku create --stack cedar-14 --buildpack https://github.com/ddollar/heroku-buildpack-multi
-
-or configure an existing application:
-
-    $ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi
+    $ heroku buildpacks:add --index 1 https://github.com/luzfcb/heroku-buildpack-wkhtmltopdf.git
 
 Deploy your applicatio.
 
