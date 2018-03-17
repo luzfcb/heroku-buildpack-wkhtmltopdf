@@ -13,6 +13,19 @@ function indent() {
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
+
+echo -e "\n"
+echo ${BUILD_DIR}
+ls -lah ${BUILD_DIR}
+
+echo -e "\n"
+echo ${CACHE_DIR}
+ls -lah ${CACHE_DIR}
+
+echo -e "\n"
+echo ${ENV_DIR}
+ls -lah ${ENV_DIR}
 
 COMPRESSED_PACKAGE="$CACHE_DIR/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
 TS=`date +%s`
