@@ -27,6 +27,8 @@ echo -e "\n"
 echo ${ENV_DIR}
 ls -lah ${ENV_DIR}
 
+mkdir -p ${CACHE_DIR}
+
 COMPRESSED_PACKAGE="$CACHE_DIR/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
 TS=`date +%s`
 echo "-----> Start installing wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
