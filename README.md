@@ -2,23 +2,6 @@
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for using [wkhtmltopdf](http://wkhtmltopdf.org/) in your application.
 
-It is designed to be used with [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) to combine it with the appropriate real buildpack for your app.
-
-This is based on https://github.com/jayzes/heroku-buildpack-pngquant.
-
-### Versions
-
-The following wkhtmltopdf versions are available:
-
-[Version 0.12.2.1 released on January 19, 2015](https://github.com/rafaelp/heroku-buildpack-wkhtmltopdf/tree/0.12.2.1)
-
-[Version 0.12.1 released on June 26, 2014](https://github.com/rafaelp/heroku-buildpack-wkhtmltopdf/tree/0.12.1)
-
-This branch works with version `0.12.2.1`
-
-### Stack
-
-This is designed to be used on [Cedar-14 Stack](https://devcenter.heroku.com/articles/cedar).
 
 ## Usage
 
@@ -39,7 +22,7 @@ You can verify that everything is properly installed by running the following co
 
 The output should be:
 
-    wkhtmltopdf 0.12.2.1 (with patched qt)
+    wkhtmltopdf 0.12.4 (with patched qt)
 
 ## Issues
 
