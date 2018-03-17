@@ -5,6 +5,7 @@ This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) fo
 
 ## Usage
 
+    $ heroku buildpacks:set heroku/python
     $ heroku buildpacks:add --index 1 https://github.com/luzfcb/heroku-buildpack-wkhtmltopdf.git
 
 Deploy your applicatio.
