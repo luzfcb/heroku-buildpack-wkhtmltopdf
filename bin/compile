@@ -15,59 +15,50 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-echo -e "\n"
-echo ${BUILD_DIR}
-ls -lah ${BUILD_DIR}
-
-echo -e "\n"
-echo ${CACHE_DIR}
-ls -lah ${CACHE_DIR}
-
-echo -e "\n"
-echo ${ENV_DIR}
-ls -lah ${ENV_DIR}
-
 mkdir -p ${CACHE_DIR}
+mkdir -p ${BUILD_DIR}
+mkdir -p ${ENV_DIR}
 
-COMPRESSED_PACKAGE="$CACHE_DIR/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
+COMPRESSED_PACKAGE="${CACHE_DIR}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
 TS=`date +%s`
 echo "-----> Start installing wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
 
-if [ ! -f $COMPRESSED_PACKAGE ]; then
+if [ ! -f ${COMPRESSED_PACKAGE} ]; then
   WKHTMLTOPDF_DOWNLOAD_URL="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
   echo "-----> No previous downloaded package detected on cache" 
-  echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-  curl -L -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
-  ls -lah $CACHE_DIR
-  ls -lah $COMPRESSED_PACKAGE
+  echo "-----> Downloading wkhtmltopdf: ${WKHTMLTOPDF_DOWNLOAD_URL}"
+  curl -L -o ${COMPRESSED_PACKAGE} ${WKHTMLTOPDF_DOWNLOAD_URL}
 else
   echo "-----> Previously downloaded package detected on cache. Using cache!"
 fi
 
 
-mkdir -p "$CACHE_DIR/.custom_packages"
+mkdir -p "${CACHE_DIR}/.custom_packages"
 echo "-----> Uncompress wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
-cat "$COMPRESSED_PACKAGE" | tar x --xz -C "$CACHE_DIR/.custom_packages/"
+cat "${COMPRESSED_PACKAGE}" | tar x --xz -C "$CACHE_DIR/.custom_packages/"
 
-cp -rf "$CACHE_DIR/.custom_packages" "$BUILD_DIR/"
+cp -rvf "${CACHE_DIR}/.custom_packages" "${BUILD_DIR}/"
 
 echo "Writing profile script" | indent
-mkdir -p "$BUILD_DIR/.profile.d"
-cat <<EOF >"$BUILD_DIR/.profile.d/wkhtmltopdf.sh"
-export PATH="\$HOME/.custom_packages/wkhtmltox/bin:\$PATH"
-export LD_LIBRARY_PATH="\$HOME/.custom_packages/wkhtmltox/lib:\$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$HOME/.custom_packages/wkhtmltox/lib:\$LIBRARY_PATH"
-export INCLUDE_PATH="\$HOME/.custom_packages/wkhtmltox/include/wkhtmltox:\$INCLUDE_PATH"
-export CPATH="\$INCLUDE_PATH"
-export CPPPATH="\$INCLUDE_PATH"
+mkdir -p "${BUILD_DIR}/.profile.d"
+cat <<EOF >"${BUILD_DIR}/.profile.d/wkhtmltopdf.sh"
+export PATH="\${HOME}/.custom_packages/wkhtmltox/bin:\$PATH"
+export LD_LIBRARY_PATH="\${HOME}/.custom_packages/wkhtmltox/lib:\$LD_LIBRARY_PATH"
+export LIBRARY_PATH="\${HOME}/.custom_packages/wkhtmltox/lib:\$LIBRARY_PATH"
+export INCLUDE_PATH="\${HOME}/.custom_packages/wkhtmltox/include/wkhtmltox:\$INCLUDE_PATH"
+export CPATH="\${INCLUDE_PATH}"
+export CPPPATH="\${INCLUDE_PATH}"
 export WKHTMLTOPDF_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 export WKHTMLTOIMAGE_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 EOF
 
-chmod +x "$BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
-chmod +x "$BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 
-if [ -f "$BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltopdf" ]; then
-    $BUILD_DIR/.custom_packages/wkhtmltox/bin/wkhtmltopdf -V
+chmod +x "${BUILD_DIR}/.profile.d/wkhtmltopdf.sh"
+source "${BUILD_DIR}/.profile.d/wkhtmltopdf.sh"
+chmod +x "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
+chmod +x "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
+
+if [ -f "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf" ]; then
+    ${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf -V
     echo "-----> Sucesss installing wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
 fi
