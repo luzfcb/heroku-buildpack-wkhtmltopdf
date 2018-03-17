@@ -22,7 +22,9 @@ if [ ! -f $COMPRESSED_PACKAGE ]; then
   WKHTMLTOPDF_DOWNLOAD_URL="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
   echo "-----> No previous downloaded package detected on cache" 
   echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-  curl --silent -L -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
+  curl -L -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
+  ls -lah $CACHE_DIR
+  ls -lah $COMPRESSED_PACKAGE
 else
   echo "-----> Previously downloaded package detected on cache. Using cache!"
 fi
