@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 
-WKHTMLTOPDF_VERSION="0.12.3"
+WKHTMLTOPDF_VERSION="0.12.4"
 
 function indent() {
   c='s/^/       /'
@@ -19,7 +19,7 @@ TS=`date +%s`
 echo "-----> Start installing wkhtmltopdf ${WKHTMLTOPDF_VERSION}"
 
 if [ ! -f $COMPRESSED_PACKAGE ]; then
-  WKHTMLTOPDF_DOWNLOAD_URL="http://download.gna.org/wkhtmltopdf/0.12/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
+  WKHTMLTOPDF_DOWNLOAD_URL="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz"
   echo "-----> No previous downloaded package detected on cache" 
   echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
   curl --silent -L -o $COMPRESSED_PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL
