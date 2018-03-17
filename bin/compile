@@ -15,6 +15,8 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+export CACHE_DIR BUILD_DIR ENV_DIR
+
 mkdir -p ${CACHE_DIR}
 mkdir -p ${BUILD_DIR}
 mkdir -p ${ENV_DIR}
@@ -48,8 +50,8 @@ export LIBRARY_PATH="\${HOME}/.custom_packages/wkhtmltox/lib:\$LIBRARY_PATH"
 export INCLUDE_PATH="\${HOME}/.custom_packages/wkhtmltox/include/wkhtmltox:\$INCLUDE_PATH"
 export CPATH="\${INCLUDE_PATH}"
 export CPPPATH="\${INCLUDE_PATH}"
-export WKHTMLTOPDF_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
-export WKHTMLTOIMAGE_CMD="\$HOME/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
+export WKHTMLTOPDF_CMD="\${HOME}/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
+export WKHTMLTOIMAGE_CMD="\${HOME}/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 EOF
 
 
@@ -58,8 +60,7 @@ source "${BUILD_DIR}/.profile.d/wkhtmltopdf.sh"
 chmod +x "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 chmod +x "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltoimage"
 
-echo -e "\nWKHTMLTOPDF_CMD:\n"
-echo "${WKHTMLTOPDF_CMD}"
+export WKHTMLTOPDF_CMD="${HOME}/.custom_packages/wkhtmltox/bin/wkhtmltopdf"
 
 if [ -f "${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf" ]; then
     ${BUILD_DIR}/.custom_packages/wkhtmltox/bin/wkhtmltopdf -V
